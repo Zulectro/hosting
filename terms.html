@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — Savish Hosting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0D12;
+    --bg-raised:#10141B;
+    --bg-card:#0D1117;
+    --cyan:#4AE3FF;
+    --cyan-dim: rgba(74,227,255,0.14);
+    --amber:#FFB84D;
+    --text:#EDEFF3;
+    --text-dim:#8A93A3;
+    --text-faint:#4E5666;
+    --line: rgba(237,239,243,0.08);
+    --line-strong: rgba(237,239,243,0.14);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--body);
+    line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(237,239,243,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,239,243,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,18,0.82); backdrop-filter: blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+  .logo{ font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:-0.02em; display:flex; align-items:center; gap:10px; }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 12px 2px var(--cyan); animation: pulse-dot 2.2s ease-in-out infinite; }
+  @keyframes pulse-dot{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(0.8);} }
+  .nav-links{ display:flex; align-items:center; gap:28px; }
+  .nav-links a{ font-family:var(--body); font-size:14px; color:var(--text-dim); transition:color .2s; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    padding:9px 18px; border-radius:6px; border:1px solid var(--line-strong);
+    transition:border-color .2s, color .2s;
+  }
+  .nav-cta:hover{ border-color:var(--cyan); color:var(--cyan); }
+
+  /* HERO */
+  header.hero{ position:relative; z-index:1; padding:88px 0 64px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--cyan);
+    display:flex; align-items:center; gap:10px; margin-bottom:24px;
+  }
+  .eyebrow::before{ content:''; width:24px; height:1px; background:var(--cyan); }
+  h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(36px, 5.4vw, 60px);
+    line-height:1.05; letter-spacing:-0.03em; max-width:820px;
+  }
+  h1 em{ font-style:normal; color:var(--cyan); }
+  .hero-sub{ font-size:18px; color:var(--text-dim); max-width:640px; margin-top:24px; }
+
+  /* STORY */
+  section.story{ position:relative; z-index:1; padding:40px 0 80px; }
+  .story-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:64px; align-items:start;
+  }
+  .story-body p{ color:var(--text-dim); font-size:16px; margin-bottom:18px; }
+  .story-body p strong{ color:var(--text); font-weight:500; }
+  .origin-card{
+    background:linear-gradient(180deg, var(--bg-raised), var(--bg-card));
+    border:1px solid var(--line); border-radius:14px; padding:32px;
+  }
+  .origin-card .label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:18px;
+  }
+  .origin-row{ display:flex; justify-content:space-between; padding:14px 0; border-top:1px solid var(--line); }
+  .origin-row:first-of-type{ border-top:none; }
+  .origin-row .k{ font-size:14px; color:var(--text-dim); }
+  .origin-row .v{ font-family:var(--mono); font-size:14px; color:var(--text); text-align:right; }
+
+  /* WHY US */
+  section.why{ position:relative; z-index:1; padding:20px 0 96px; }
+  .section-head{ max-width:600px; margin-bottom:48px; }
+  .section-head h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(28px,4vw,40px);
+    letter-spacing:-0.02em; margin-bottom:14px;
+  }
+  .section-head p{ color:var(--text-dim); font-size:16px; }
+
+  .compare{
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:var(--bg-card);
+  }
+  .compare-row{
+    display:grid; grid-template-columns: 1.4fr 1fr 1fr;
+    border-top:1px solid var(--line);
+  }
+  .compare-row:first-child{ border-top:none; background:var(--bg-raised); }
+  .compare-cell{ padding:20px 24px; font-size:14px; }
+  .compare-row:first-child .compare-cell{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--text-faint);
+  }
+  .compare-cell.feature{ color:var(--text); font-weight:500; }
+  .compare-cell.us{ color:var(--cyan); display:flex; align-items:center; gap:8px; }
+  .compare-cell.them{ color:var(--text-faint); display:flex; align-items:center; gap:8px; }
+  .compare-cell.us svg path{ stroke:var(--cyan); }
+  .compare-cell.them svg path{ stroke:var(--text-faint); }
+
+  /* VALUES */
+  .values{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:56px;
+  }
+  .value-card{
+    border:1px solid var(--line); border-radius:14px; padding:28px;
+    background:var(--bg-card); transition:border-color .2s;
+  }
+  .value-card:hover{ border-color:var(--line-strong); }
+  .value-num{ font-family:var(--mono); font-size:12px; color:var(--cyan); margin-bottom:16px; }
+  .value-card h3{
+    font-family:var(--display); font-weight:600; font-size:18px; margin-bottom:10px;
+  }
+  .value-card p{ color:var(--text-dim); font-size:14px; line-height:1.55; }
+
+  /* CTA */
+  section.cta{ position:relative; z-index:1; padding:0 0 100px; }
+  .cta-card{
+    border:1px solid var(--amber); border-radius:16px;
+    background:linear-gradient(180deg, rgba(255,184,77,0.06), var(--bg-card) 60%);
+    padding:56px 48px; text-align:center;
+  }
+  .cta-card h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(26px,3.6vw,36px);
+    letter-spacing:-0.02em; margin-bottom:14px;
+  }
+  .cta-card p{ color:var(--text-dim); font-size:16px; max-width:480px; margin:0 auto 28px; }
+  .btn-primary{
+    display:inline-block; font-family:var(--body); font-weight:600; font-size:15px;
+    background:var(--amber); color:#241300; padding:14px 32px; border-radius:8px;
+    border:none; text-decoration:none; cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 24px -8px rgba(255,184,77,0.4); }
+
+  /* FOOTER */
+  footer{ position:relative; z-index:1; padding:0 0 40px; }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+    border-top:1px solid var(--line); padding-top:32px;
+  }
+  footer .foot-left{ font-family:var(--mono); font-size:12px; color:var(--text-faint); }
+  footer .foot-links{ display:flex; gap:24px; }
+  footer .foot-links a{ font-size:13px; color:var(--text-dim); transition:color .2s; }
+  footer .foot-links a:hover{ color:var(--cyan); }
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .story-grid{ grid-template-columns:1fr; gap:40px; }
+    .values{ grid-template-columns:1fr; }
+    .compare-row{ grid-template-columns:1.1fr 1fr 1fr; }
+    .compare-cell{ padding:16px; font-size:13px; }
+  }
+  @media (max-width:560px){
+    .wrap{ padding:0 20px; }
+    .nav-links{ display:none; }
+    .cta-card{ padding:40px 24px; }
+    .compare-cell span.label-text{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .logo .dot{ animation:none; }
+    *{ transition-duration:0.01ms !important; animation-duration:0.01ms !important; }
+  }
+</style>
+<!-- LEGAL_HEAD_TEMPLATE -->
+<style>
+  /* Legal doc layout, appended to the shared design system */
+  header.legal-hero{ position:relative; z-index:1; padding:72px 0 40px; }
+  .legal-updated{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    margin-top:18px;
+  }
+  section.legal{ position:relative; z-index:1; padding:0 0 100px; }
+  .legal-grid{
+    display:grid; grid-template-columns: 240px 1fr; gap:56px; align-items:start;
+  }
+  .legal-toc{
+    position:sticky; top:96px;
+    border:1px solid var(--line); border-radius:12px; padding:20px;
+    background:var(--bg-card);
+  }
+  .legal-toc .label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:14px;
+  }
+  .legal-toc a{
+    display:block; font-size:13px; color:var(--text-dim);
+    padding:7px 0; transition:color .2s;
+  }
+  .legal-toc a:hover{ color:var(--cyan); }
+  .legal-body{ max-width:720px; }
+  .legal-body h2{
+    font-family:var(--display); font-weight:600; font-size:22px;
+    letter-spacing:-0.01em; margin-top:44px; margin-bottom:14px;
+    scroll-margin-top:96px;
+  }
+  .legal-body h2:first-child{ margin-top:0; }
+  .legal-body p{ color:var(--text-dim); font-size:15px; line-height:1.7; margin-bottom:14px; }
+  .legal-body p strong{ color:var(--text); font-weight:500; }
+  .legal-body ul, .legal-body ol{ color:var(--text-dim); font-size:15px; line-height:1.7; margin:0 0 14px 22px; }
+  .legal-body li{ margin-bottom:8px; }
+  .legal-body a.inline-link{ color:var(--cyan); text-decoration:none; border-bottom:1px solid rgba(74,227,255,0.3); }
+  .legal-body a.inline-link:hover{ border-color:var(--cyan); }
+  .legal-callout{
+    border:1px solid var(--line-strong); border-left:3px solid var(--cyan);
+    border-radius:8px; padding:16px 20px; margin:18px 0;
+    background:var(--bg-raised);
+  }
+  .legal-callout p{ margin-bottom:0; font-size:14px; }
+  .legal-disclaimer{
+    margin-top:56px; padding-top:24px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--text-faint); line-height:1.6;
+  }
+  @media (max-width:900px){
+    .legal-grid{ grid-template-columns:1fr; }
+    .legal-toc{ position:static; }
+  }
+</style>
+
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>Savish Hosting</div>
+    <div class="nav-links">
+      <a href="/">Plans</a>
+      <a href="/about.html">About</a>
+      <a href="mailto:hello@savish.app">Contact</a>
+    </div>
+    <a href="/#pricing" class="nav-cta">View plans</a>
+  </div>
+</nav>
+
+<header class="legal-hero">
+  <div class="wrap">
+    <div class="eyebrow">Legal</div>
+    <h1 style="font-size:clamp(32px,4.6vw,48px);">Terms of Service</h1>
+    <p class="legal-updated">Last updated: July 1, 2026</p>
+  </div>
+</header>
+
+<section class="legal">
+  <div class="wrap legal-grid">
+    <nav class="legal-toc">
+      <div class="label">On this page</div>
+      <a href="#acceptance">Acceptance of terms</a>
+      <a href="#service">Description of service</a>
+      <a href="#accounts">Accounts</a>
+      <a href="#billing">Billing &amp; payment</a>
+      <a href="#discount">Business card discount</a>
+      <a href="#acceptable-use">Acceptable use</a>
+      <a href="#availability">Service availability</a>
+      <a href="#ip">Intellectual property</a>
+      <a href="#termination">Termination</a>
+      <a href="#liability">Limitation of liability</a>
+      <a href="#indemnification">Indemnification</a>
+      <a href="#law">Governing law</a>
+      <a href="#changes">Changes to these terms</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="legal-body">
+      <h2 id="acceptance">Acceptance of terms</h2>
+      <p>These Terms of Service ("Terms") govern your access to and use of Savish Hosting's website and hosting services (the "Service"). By purchasing a plan or using the Service, you agree to be bound by these Terms. If you do not agree, do not use the Service.</p>
+
+      <h2 id="service">Description of service</h2>
+      <p>Savish Hosting provides application and marketing-site hosting infrastructure, including compute resources, storage, content delivery, backups, and related support, according to the plan you purchase.</p>
+
+      <h2 id="accounts">Accounts</h2>
+      <p>You must provide accurate account information and are responsible for maintaining the confidentiality of your account credentials. You are responsible for all activity that occurs under your account.</p>
+
+      <h2 id="billing">Billing &amp; payment</h2>
+      <ul>
+        <li>All Savish Hosting plans are billed <strong>annually</strong>. We do not offer monthly billing.</li>
+        <li>Payment is processed securely through Stripe at the time of purchase.</li>
+        <li>Plans renew at the then-current annual rate unless cancelled prior to the renewal date. We will send a renewal reminder in advance of your billing date.</li>
+        <li>Prices are listed in USD and do not include applicable taxes, which may be added at checkout.</li>
+      </ul>
+
+      <h2 id="discount">Business card discount</h2>
+      <p>Customers who pay using a business debit or credit card receive a 15% discount off the listed annual price, applied via promotional code at checkout. This discount is offered at Savish Hosting's discretion, applies to the initial purchase and, unless otherwise stated, subsequent renewals, and may be modified or discontinued at any time. Savish Hosting reserves the right to request reasonable verification that a card used for this discount is issued for business purposes.</p>
+
+      <h2 id="acceptable-use">Acceptable use</h2>
+      <p>You agree not to use the Service to:</p>
+      <ul>
+        <li>Host or distribute unlawful, infringing, or malicious content</li>
+        <li>Send spam or engage in phishing, fraud, or abuse of any kind</li>
+        <li>Attempt to gain unauthorized access to other accounts, systems, or networks</li>
+        <li>Interfere with or disrupt the integrity or performance of the Service</li>
+      </ul>
+      <p>We reserve the right to suspend or terminate accounts that violate this policy.</p>
+
+      <h2 id="availability">Service availability</h2>
+      <p>We target a 99.98% uptime standard across our infrastructure and monitor it continuously. While we work to maintain consistent, high-speed performance, the Service is provided on an "as available" basis, and we do not guarantee uninterrupted or error-free operation. Scheduled maintenance will be communicated in advance where reasonably possible.</p>
+
+      <h2 id="ip">Intellectual property</h2>
+      <p>Savish Hosting retains all rights to its own branding, software, and infrastructure. You retain all rights to the content, code, and applications you host with us. You are solely responsible for ensuring you have the necessary rights to any content you upload or deploy.</p>
+
+      <h2 id="termination">Termination</h2>
+      <p>You may cancel your plan at any time; cancellation takes effect at the end of your current annual billing term. We may suspend or terminate your account for violation of these Terms, non-payment, or activity that poses a security or legal risk to the Service or other customers. See our <a href="/refunds.html" class="inline-link">Refund Policy</a> for details on refunds related to cancellation.</p>
+
+      <h2 id="liability">Limitation of liability</h2>
+      <p>To the maximum extent permitted by law, Savish Hosting shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service, including loss of data, revenue, or business opportunity. Our total liability for any claim arising from the Service is limited to the amount you paid for the applicable plan in the twelve months preceding the claim.</p>
+
+      <h2 id="indemnification">Indemnification</h2>
+      <p>You agree to indemnify and hold Savish Hosting harmless from any claims, damages, or expenses arising from your use of the Service or violation of these Terms.</p>
+
+      <h2 id="law">Governing law</h2>
+      <p>These Terms are governed by the laws of the state in which Savish Hosting operates, without regard to conflict-of-law principles. <em style="color:var(--text-faint); font-style:normal;">[Specify your governing state/jurisdiction here.]</em></p>
+
+      <h2 id="changes">Changes to these terms</h2>
+      <p>We may update these Terms from time to time. Continued use of the Service after changes take effect constitutes acceptance of the revised Terms.</p>
+
+      <h2 id="contact">Contact</h2>
+      <p>Questions about these Terms can be sent to <a href="mailto:hello@savish.app" class="inline-link">hello@savish.app</a>.</p>
+
+      <div class="legal-disclaimer">
+        This page is provided as a general template for informational purposes and does not constitute legal advice. Consult a qualified attorney to ensure these terms fully comply with the laws applicable to your business and customers.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-left">SAVISH HOSTING © 2026</div>
+    <div class="foot-links">
+      <a href="/#pricing">Plans</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/refunds.html">Refunds</a>
+      <a href="mailto:hello@savish.app">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

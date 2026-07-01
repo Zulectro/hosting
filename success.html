@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're provisioned — Savish Hosting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0D12;
+    --bg-raised:#10141B;
+    --bg-card:#0D1117;
+    --cyan:#4AE3FF;
+    --amber:#FFB84D;
+    --text:#EDEFF3;
+    --text-dim:#8A93A3;
+    --text-faint:#4E5666;
+    --line: rgba(237,239,243,0.08);
+    --line-strong: rgba(237,239,243,0.14);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--body);
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:32px; -webkit-font-smoothing:antialiased;
+  }
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(237,239,243,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,239,243,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%);
+  }
+  .card{
+    position:relative; z-index:1;
+    max-width:560px; width:100%;
+    background:linear-gradient(180deg, var(--bg-raised), var(--bg-card));
+    border:1px solid var(--line-strong);
+    border-radius:16px;
+    padding:48px 40px;
+    text-align:center;
+  }
+  .status-dot{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--cyan-dim, rgba(74,227,255,0.12));
+    border:1px solid var(--cyan);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 24px;
+  }
+  .status-dot svg path{ stroke:var(--cyan); }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--cyan); margin-bottom:14px;
+  }
+  h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(26px,4vw,34px);
+    letter-spacing:-0.02em; margin-bottom:16px;
+  }
+  p{
+    color:var(--text-dim); font-size:15px; line-height:1.6; margin-bottom:8px;
+  }
+  .order-ref{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    margin-top:20px; margin-bottom:32px;
+  }
+  .next-steps{
+    text-align:left; border-top:1px solid var(--line); padding-top:28px; margin-top:8px;
+  }
+  .next-steps .label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:16px;
+  }
+  .step{
+    display:flex; gap:14px; margin-bottom:16px; align-items:flex-start;
+  }
+  .step-num{
+    font-family:var(--mono); font-size:12px; color:var(--cyan);
+    border:1px solid var(--line-strong); border-radius:50%;
+    width:24px; height:24px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step p{ margin:0; font-size:14px; color:var(--text); }
+  .step span{ color:var(--text-dim); font-size:13px; display:block; margin-top:2px; }
+  .btn-primary{
+    display:inline-block; margin-top:32px;
+    font-family:var(--body); font-weight:600; font-size:15px;
+    background:var(--cyan); color:#03181F;
+    padding:14px 32px; border-radius:8px; border:none;
+    text-decoration:none; cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 24px -8px rgba(74,227,255,0.5); }
+  .footnote{
+    margin-top:24px; font-size:13px; color:var(--text-faint);
+  }
+  .footnote a{ color:var(--cyan); text-decoration:none; }
+  .footnote a:hover{ text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="card">
+  <div class="status-dot">
+    <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="eyebrow">Payment confirmed</div>
+  <h1>You're provisioned.</h1>
+  <p>Your Savish Hosting plan is active. We're spinning up your environment now — you'll get a confirmation email with login details shortly.</p>
+  <p class="order-ref" id="orderRef">Reference: —</p>
+
+  <div class="next-steps">
+    <div class="label">What happens next</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <p>Environment provisioning<span>Your server resources are being allocated now — usually done within minutes.</span></p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <p>Access details by email<span>Deployment credentials and setup instructions land in your inbox.</span></p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <p>Deploy your first app<span>Push via Git or connect your existing workflow to go live.</span></p>
+    </div>
+  </div>
+
+  <a href="/" class="btn-primary">Back to Savish Hosting</a>
+  <div class="footnote">Questions? <a href="mailto:hello@savish.app">hello@savish.app</a></div>
+</div>
+
+<script>
+  // Pulls the Stripe Checkout session ID from the success URL (?session_id={CHECKOUT_SESSION_ID})
+  // so you have a reference on screen. To show real order details (plan name, amount),
+  // you'd fetch this session_id against a small backend endpoint that calls
+  // stripe.checkout.sessions.retrieve() — Checkout doesn't expose that client-side for security.
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  if (sessionId) {
+    document.getElementById('orderRef').textContent = 'Reference: ' + sessionId.slice(-12);
+  }
+</script>
+</body>
+</html>

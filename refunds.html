@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Policy — Savish Hosting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0D12;
+    --bg-raised:#10141B;
+    --bg-card:#0D1117;
+    --cyan:#4AE3FF;
+    --cyan-dim: rgba(74,227,255,0.14);
+    --amber:#FFB84D;
+    --text:#EDEFF3;
+    --text-dim:#8A93A3;
+    --text-faint:#4E5666;
+    --line: rgba(237,239,243,0.08);
+    --line-strong: rgba(237,239,243,0.14);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--body);
+    line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(237,239,243,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,239,243,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,18,0.82); backdrop-filter: blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+  .logo{ font-family:var(--display); font-weight:700; font-size:20px; letter-spacing:-0.02em; display:flex; align-items:center; gap:10px; }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 12px 2px var(--cyan); animation: pulse-dot 2.2s ease-in-out infinite; }
+  @keyframes pulse-dot{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.5; transform:scale(0.8);} }
+  .nav-links{ display:flex; align-items:center; gap:28px; }
+  .nav-links a{ font-family:var(--body); font-size:14px; color:var(--text-dim); transition:color .2s; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    padding:9px 18px; border-radius:6px; border:1px solid var(--line-strong);
+    transition:border-color .2s, color .2s;
+  }
+  .nav-cta:hover{ border-color:var(--cyan); color:var(--cyan); }
+
+  /* HERO */
+  header.hero{ position:relative; z-index:1; padding:88px 0 64px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--cyan);
+    display:flex; align-items:center; gap:10px; margin-bottom:24px;
+  }
+  .eyebrow::before{ content:''; width:24px; height:1px; background:var(--cyan); }
+  h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(36px, 5.4vw, 60px);
+    line-height:1.05; letter-spacing:-0.03em; max-width:820px;
+  }
+  h1 em{ font-style:normal; color:var(--cyan); }
+  .hero-sub{ font-size:18px; color:var(--text-dim); max-width:640px; margin-top:24px; }
+
+  /* STORY */
+  section.story{ position:relative; z-index:1; padding:40px 0 80px; }
+  .story-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:64px; align-items:start;
+  }
+  .story-body p{ color:var(--text-dim); font-size:16px; margin-bottom:18px; }
+  .story-body p strong{ color:var(--text); font-weight:500; }
+  .origin-card{
+    background:linear-gradient(180deg, var(--bg-raised), var(--bg-card));
+    border:1px solid var(--line); border-radius:14px; padding:32px;
+  }
+  .origin-card .label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:18px;
+  }
+  .origin-row{ display:flex; justify-content:space-between; padding:14px 0; border-top:1px solid var(--line); }
+  .origin-row:first-of-type{ border-top:none; }
+  .origin-row .k{ font-size:14px; color:var(--text-dim); }
+  .origin-row .v{ font-family:var(--mono); font-size:14px; color:var(--text); text-align:right; }
+
+  /* WHY US */
+  section.why{ position:relative; z-index:1; padding:20px 0 96px; }
+  .section-head{ max-width:600px; margin-bottom:48px; }
+  .section-head h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(28px,4vw,40px);
+    letter-spacing:-0.02em; margin-bottom:14px;
+  }
+  .section-head p{ color:var(--text-dim); font-size:16px; }
+
+  .compare{
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:var(--bg-card);
+  }
+  .compare-row{
+    display:grid; grid-template-columns: 1.4fr 1fr 1fr;
+    border-top:1px solid var(--line);
+  }
+  .compare-row:first-child{ border-top:none; background:var(--bg-raised); }
+  .compare-cell{ padding:20px 24px; font-size:14px; }
+  .compare-row:first-child .compare-cell{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--text-faint);
+  }
+  .compare-cell.feature{ color:var(--text); font-weight:500; }
+  .compare-cell.us{ color:var(--cyan); display:flex; align-items:center; gap:8px; }
+  .compare-cell.them{ color:var(--text-faint); display:flex; align-items:center; gap:8px; }
+  .compare-cell.us svg path{ stroke:var(--cyan); }
+  .compare-cell.them svg path{ stroke:var(--text-faint); }
+
+  /* VALUES */
+  .values{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:56px;
+  }
+  .value-card{
+    border:1px solid var(--line); border-radius:14px; padding:28px;
+    background:var(--bg-card); transition:border-color .2s;
+  }
+  .value-card:hover{ border-color:var(--line-strong); }
+  .value-num{ font-family:var(--mono); font-size:12px; color:var(--cyan); margin-bottom:16px; }
+  .value-card h3{
+    font-family:var(--display); font-weight:600; font-size:18px; margin-bottom:10px;
+  }
+  .value-card p{ color:var(--text-dim); font-size:14px; line-height:1.55; }
+
+  /* CTA */
+  section.cta{ position:relative; z-index:1; padding:0 0 100px; }
+  .cta-card{
+    border:1px solid var(--amber); border-radius:16px;
+    background:linear-gradient(180deg, rgba(255,184,77,0.06), var(--bg-card) 60%);
+    padding:56px 48px; text-align:center;
+  }
+  .cta-card h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(26px,3.6vw,36px);
+    letter-spacing:-0.02em; margin-bottom:14px;
+  }
+  .cta-card p{ color:var(--text-dim); font-size:16px; max-width:480px; margin:0 auto 28px; }
+  .btn-primary{
+    display:inline-block; font-family:var(--body); font-weight:600; font-size:15px;
+    background:var(--amber); color:#241300; padding:14px 32px; border-radius:8px;
+    border:none; text-decoration:none; cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 24px -8px rgba(255,184,77,0.4); }
+
+  /* FOOTER */
+  footer{ position:relative; z-index:1; padding:0 0 40px; }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+    border-top:1px solid var(--line); padding-top:32px;
+  }
+  footer .foot-left{ font-family:var(--mono); font-size:12px; color:var(--text-faint); }
+  footer .foot-links{ display:flex; gap:24px; }
+  footer .foot-links a{ font-size:13px; color:var(--text-dim); transition:color .2s; }
+  footer .foot-links a:hover{ color:var(--cyan); }
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .story-grid{ grid-template-columns:1fr; gap:40px; }
+    .values{ grid-template-columns:1fr; }
+    .compare-row{ grid-template-columns:1.1fr 1fr 1fr; }
+    .compare-cell{ padding:16px; font-size:13px; }
+  }
+  @media (max-width:560px){
+    .wrap{ padding:0 20px; }
+    .nav-links{ display:none; }
+    .cta-card{ padding:40px 24px; }
+    .compare-cell span.label-text{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .logo .dot{ animation:none; }
+    *{ transition-duration:0.01ms !important; animation-duration:0.01ms !important; }
+  }
+</style>
+<!-- LEGAL_HEAD_TEMPLATE -->
+<style>
+  /* Legal doc layout, appended to the shared design system */
+  header.legal-hero{ position:relative; z-index:1; padding:72px 0 40px; }
+  .legal-updated{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    margin-top:18px;
+  }
+  section.legal{ position:relative; z-index:1; padding:0 0 100px; }
+  .legal-grid{
+    display:grid; grid-template-columns: 240px 1fr; gap:56px; align-items:start;
+  }
+  .legal-toc{
+    position:sticky; top:96px;
+    border:1px solid var(--line); border-radius:12px; padding:20px;
+    background:var(--bg-card);
+  }
+  .legal-toc .label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:14px;
+  }
+  .legal-toc a{
+    display:block; font-size:13px; color:var(--text-dim);
+    padding:7px 0; transition:color .2s;
+  }
+  .legal-toc a:hover{ color:var(--cyan); }
+  .legal-body{ max-width:720px; }
+  .legal-body h2{
+    font-family:var(--display); font-weight:600; font-size:22px;
+    letter-spacing:-0.01em; margin-top:44px; margin-bottom:14px;
+    scroll-margin-top:96px;
+  }
+  .legal-body h2:first-child{ margin-top:0; }
+  .legal-body p{ color:var(--text-dim); font-size:15px; line-height:1.7; margin-bottom:14px; }
+  .legal-body p strong{ color:var(--text); font-weight:500; }
+  .legal-body ul, .legal-body ol{ color:var(--text-dim); font-size:15px; line-height:1.7; margin:0 0 14px 22px; }
+  .legal-body li{ margin-bottom:8px; }
+  .legal-body a.inline-link{ color:var(--cyan); text-decoration:none; border-bottom:1px solid rgba(74,227,255,0.3); }
+  .legal-body a.inline-link:hover{ border-color:var(--cyan); }
+  .legal-callout{
+    border:1px solid var(--line-strong); border-left:3px solid var(--cyan);
+    border-radius:8px; padding:16px 20px; margin:18px 0;
+    background:var(--bg-raised);
+  }
+  .legal-callout p{ margin-bottom:0; font-size:14px; }
+  .legal-disclaimer{
+    margin-top:56px; padding-top:24px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--text-faint); line-height:1.6;
+  }
+  @media (max-width:900px){
+    .legal-grid{ grid-template-columns:1fr; }
+    .legal-toc{ position:static; }
+  }
+</style>
+
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>Savish Hosting</div>
+    <div class="nav-links">
+      <a href="/">Plans</a>
+      <a href="/about.html">About</a>
+      <a href="mailto:hello@savish.app">Contact</a>
+    </div>
+    <a href="/#pricing" class="nav-cta">View plans</a>
+  </div>
+</nav>
+
+<header class="legal-hero">
+  <div class="wrap">
+    <div class="eyebrow">Legal</div>
+    <h1 style="font-size:clamp(32px,4.6vw,48px);">Refund Policy</h1>
+    <p class="legal-updated">Last updated: July 1, 2026</p>
+  </div>
+</header>
+
+<section class="legal">
+  <div class="wrap legal-grid">
+    <nav class="legal-toc">
+      <div class="label">On this page</div>
+      <a href="#overview">Overview</a>
+      <a href="#window">14-day guarantee</a>
+      <a href="#after">After the guarantee window</a>
+      <a href="#renewals">Annual renewals</a>
+      <a href="#discount">Business card discount</a>
+      <a href="#how">How to request a refund</a>
+      <a href="#chargebacks">Chargebacks</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="legal-body">
+      <h2 id="overview">Overview</h2>
+      <p>We want you to be confident in your Savish Hosting plan. This policy explains when refunds are available for our annual hosting plans.</p>
+
+      <h2 id="window">14-day money-back guarantee</h2>
+      <div class="legal-callout">
+        <p>If you're not satisfied with your Savish Hosting plan, you can request a full refund within <strong>14 days</strong> of your original purchase date, no questions asked.</p>
+      </div>
+      <p>This guarantee applies to your first purchase of a plan. To request a refund within this window, contact us using the details below.</p>
+
+      <h2 id="after">After the guarantee window</h2>
+      <p>Because our plans are billed annually and provision dedicated infrastructure resources for your account, we're unable to offer prorated or partial refunds once the 14-day window has passed. If you need to reduce costs, you're welcome to let your current term run out and choose not to renew — see below.</p>
+
+      <h2 id="renewals">Annual renewals</h2>
+      <p>Plans renew automatically at the end of each annual term unless cancelled beforehand. We'll send a renewal reminder in advance of your billing date. If you cancel before the renewal date, you will not be charged for the next term, and you'll retain access through the end of your current paid term. Renewal charges are covered by the same 14-day guarantee described above.</p>
+
+      <h2 id="discount">Business card discount</h2>
+      <p>If your purchase included the 15% business debit/credit card discount, any refund issued under this policy will be for the discounted amount actually paid, not the standard list price.</p>
+
+      <h2 id="how">How to request a refund</h2>
+      <p>Email <a href="mailto:hello@savish.app" class="inline-link">hello@savish.app</a> with your account email and order reference (found on your checkout confirmation or success page). Approved refunds are issued to the original payment method and typically appear within 5–10 business days, depending on your bank or card issuer.</p>
+
+      <h2 id="chargebacks">Chargebacks</h2>
+      <p>We ask that you contact us directly before filing a chargeback with your bank — we're able to resolve most billing issues faster this way. Accounts associated with a chargeback may be suspended while the dispute is reviewed.</p>
+
+      <h2 id="contact">Contact</h2>
+      <p>Questions about this policy can be sent to <a href="mailto:hello@savish.app" class="inline-link">hello@savish.app</a>.</p>
+
+      <div class="legal-disclaimer">
+        This page is provided as a general template for informational purposes and does not constitute legal advice. Consult a qualified attorney to ensure this policy fully complies with the laws applicable to your business and customers, including any consumer protection requirements in the regions where you sell.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-left">SAVISH HOSTING © 2026</div>
+    <div class="foot-links">
+      <a href="/#pricing">Plans</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/refunds.html">Refunds</a>
+      <a href="mailto:hello@savish.app">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
