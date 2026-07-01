@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savish Hosting — Infrastructure for apps that can't afford to wait</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0D12;
+    --bg-raised:#10141B;
+    --bg-card:#0D1117;
+    --cyan:#4AE3FF;
+    --cyan-dim: rgba(74,227,255,0.14);
+    --amber:#FFB84D;
+    --amber-dim: rgba(255,184,77,0.12);
+    --text:#EDEFF3;
+    --text-dim:#8A93A3;
+    --text-faint:#4E5666;
+    --line: rgba(237,239,243,0.08);
+    --line-strong: rgba(237,239,243,0.14);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* subtle grid backdrop */
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(237,239,243,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,239,243,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,18,0.82);
+    backdrop-filter: blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    font-family:var(--display); font-weight:700; font-size:20px;
+    letter-spacing:-0.02em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 12px 2px var(--cyan);
+    animation: pulse-dot 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:0.5; transform:scale(0.8);}
+  }
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    padding:9px 18px; border-radius:6px;
+    border:1px solid var(--line-strong);
+    transition:border-color .2s, color .2s;
+  }
+  .nav-cta:hover{border-color:var(--cyan); color:var(--cyan);}
+  .nav-links a{ transition:color .2s; }
+  .nav-links a:hover{ color:var(--text); }
+  @media (max-width:560px){ .nav-links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    position:relative; z-index:1;
+    padding:96px 0 64px;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--cyan);
+    display:flex; align-items:center; gap:10px; margin-bottom:24px;
+  }
+  .eyebrow::before{
+    content:''; width:24px; height:1px; background:var(--cyan);
+  }
+  h1{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(40px, 6vw, 72px);
+    line-height:1.02; letter-spacing:-0.03em;
+    max-width:900px;
+    color:var(--text);
+  }
+  h1 em{
+    font-style:normal; color:var(--cyan);
+  }
+  .hero-sub{
+    font-size:18px; color:var(--text-dim); max-width:560px;
+    margin-top:24px; font-weight:400;
+  }
+  .hero-actions{
+    margin-top:40px; display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+  }
+  .btn-primary{
+    font-family:var(--body); font-weight:600; font-size:15px;
+    background:var(--cyan); color:#03181F;
+    padding:14px 28px; border-radius:8px; border:none;
+    cursor:pointer; transition:transform .15s, box-shadow .15s;
+    box-shadow:0 0 0 0 rgba(74,227,255,0.4);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 24px -8px rgba(74,227,255,0.5); }
+  .btn-ghost{
+    font-family:var(--body); font-weight:500; font-size:15px;
+    color:var(--text-dim); padding:14px 4px;
+    border-bottom:1px solid transparent;
+    transition:color .2s, border-color .2s;
+  }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--line-strong); }
+
+  /* ---------- LATENCY SIGNATURE ---------- */
+  .signal{
+    margin-top:72px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:linear-gradient(180deg, var(--bg-raised), var(--bg-card));
+    padding:28px 32px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:center;
+    gap:24px;
+    overflow:hidden;
+  }
+  .signal-readout{
+    display:flex; gap:40px; flex-wrap:wrap;
+  }
+  .stat-label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:6px;
+  }
+  .stat-value{
+    font-family:var(--mono); font-size:26px; font-weight:600; color:var(--text);
+  }
+  .stat-value.live{ color:var(--cyan); }
+  .waveform{
+    width:220px; height:48px;
+  }
+  .waveform path{
+    fill:none; stroke:var(--cyan); stroke-width:1.6;
+    filter: drop-shadow(0 0 6px rgba(74,227,255,0.5));
+  }
+
+  /* ---------- PRICING ---------- */
+  section.pricing{
+    position:relative; z-index:1;
+    padding:80px 0 100px;
+  }
+  .pricing-head{
+    text-align:center; max-width:600px; margin:0 auto 56px;
+  }
+  .pricing-head h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(30px,4vw,42px);
+    letter-spacing:-0.02em;
+  }
+  .pricing-head p{
+    color:var(--text-dim); margin-top:14px; font-size:16px;
+  }
+  .billing-note{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    margin-top:18px; display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--line); padding:8px 14px; border-radius:100px;
+  }
+  .billing-note .dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);}
+
+  .plans{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:24px;
+    align-items:start;
+  }
+  .plan{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:36px 30px 32px;
+    display:flex; flex-direction:column;
+    position:relative;
+    transition:border-color .2s, transform .2s;
+  }
+  .plan:hover{ border-color:var(--line-strong); }
+  .plan.featured{
+    background:linear-gradient(180deg, rgba(255,184,77,0.06), var(--bg-card) 40%);
+    border:1px solid var(--amber);
+    transform:translateY(-14px);
+    box-shadow:0 24px 60px -24px rgba(255,184,77,0.25);
+  }
+  .plan.featured:hover{ transform:translateY(-18px); }
+  .badge{
+    position:absolute; top:-13px; left:30px;
+    font-family:var(--mono); font-size:11px; font-weight:700;
+    letter-spacing:0.08em; text-transform:uppercase;
+    background:var(--amber); color:#241300;
+    padding:5px 12px; border-radius:100px;
+  }
+  .plan-name{
+    font-family:var(--display); font-weight:600; font-size:20px;
+    margin-bottom:6px;
+  }
+  .plan-tagline{
+    font-size:13px; color:var(--text-dim); margin-bottom:24px;
+    min-height:34px;
+  }
+  .plan-price{
+    display:flex; align-items:baseline; gap:6px; margin-bottom:2px;
+  }
+  .plan-price .amount{
+    font-family:var(--mono); font-weight:700; font-size:44px; color:var(--text);
+    letter-spacing:-0.02em;
+  }
+  .plan-price .cycle{
+    font-family:var(--mono); font-size:14px; color:var(--text-faint);
+  }
+  .plan-billed{
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    margin-bottom:28px;
+  }
+  .plan-cta{
+    width:100%; padding:13px 0; border-radius:8px;
+    font-family:var(--body); font-weight:600; font-size:14px;
+    cursor:pointer; border:1px solid var(--line-strong);
+    background:transparent; color:var(--text);
+    transition:all .2s; margin-bottom:28px;
+    display:block; text-align:center; text-decoration:none;
+    box-sizing:border-box;
+  }
+  .plan.featured .plan-cta{
+    background:var(--amber); color:#241300; border:none;
+  }
+  .plan-cta:hover{ border-color:var(--cyan); color:var(--cyan); }
+  .plan.featured .plan-cta:hover{
+    filter:brightness(1.08); color:#241300;
+  }
+  .plan-cta:disabled{ opacity:0.6; cursor:wait; }
+
+  .benefits{ list-style:none; display:flex; flex-direction:column; gap:13px; }
+  .benefits li{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:14px; color:var(--text-dim); line-height:1.4;
+  }
+  .benefits li strong{ color:var(--text); font-weight:500; }
+  .benefits svg{ flex-shrink:0; margin-top:2px; }
+  .plan.featured .benefits svg path{ stroke:var(--amber); }
+  .plan .benefits svg path{ stroke:var(--cyan); }
+
+  /* ---------- INFRA STRIP ---------- */
+  .infra-strip{
+    position:relative; z-index:1;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:var(--bg-raised);
+  }
+  .infra-strip .wrap{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    padding:40px 32px;
+  }
+  .infra-item{
+    padding:0 20px; border-left:1px solid var(--line);
+  }
+  .infra-item:first-child{ border-left:none; padding-left:0; }
+  .infra-label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--text-faint); margin-bottom:8px;
+  }
+  .infra-value{
+    font-family:var(--display); font-weight:600; font-size:19px; color:var(--text);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    position:relative; z-index:1;
+    padding:56px 0 40px;
+  }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+    border-top:1px solid var(--line);
+    padding-top:32px;
+  }
+  footer .foot-left{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+  }
+  footer .foot-links{ display:flex; gap:20px; flex-wrap:wrap; }
+  footer .foot-links a{
+    font-size:13px; color:var(--text-dim); transition:color .2s;
+  }
+  footer .foot-links a:hover{ color:var(--cyan); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:920px){
+    .plans{ grid-template-columns:1fr; }
+    .plan.featured{ transform:none; order:-1; }
+    .plan.featured:hover{ transform:none; }
+    .infra-strip .wrap{ grid-template-columns:repeat(2,1fr); row-gap:24px; }
+    .infra-item:nth-child(3){ border-left:none; padding-left:0; }
+    .signal{ grid-template-columns:1fr; }
+    .waveform{ width:100%; }
+  }
+  @media (max-width:560px){
+    .wrap{ padding:0 20px; }
+    .signal-readout{ gap:24px; }
+    footer .wrap{ flex-direction:column; align-items:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .logo .dot{ animation:none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>Savish Hosting</div>
+    <div class="nav-links" style="display:flex; align-items:center; gap:28px;">
+      <a href="/#pricing" style="font-size:14px; color:var(--text-dim);">Plans</a>
+      <a href="/about.html" style="font-size:14px; color:var(--text-dim);">About</a>
+    </div>
+    <a href="#pricing" class="nav-cta">View plans</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Infrastructure for apps &amp; marketing</div>
+    <h1>Ship on rails built for <em>speed</em>, not excuses.</h1>
+    <p class="hero-sub">
+      Savish Hosting runs your app and marketing infrastructure on NVMe-backed,
+      globally-edged servers — the same class of infrastructure we use to run
+      our own products in production.
+    </p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">See the three plans</a>
+      <a href="#infra" class="btn-ghost">What's under the hood →</a>
+    </div>
+
+    <div class="signal">
+      <div class="signal-readout">
+        <div>
+          <div class="stat-label">Avg. response</div>
+          <div class="stat-value live" id="latencyReadout">11 ms</div>
+        </div>
+        <div>
+          <div class="stat-label">Uptime SLA</div>
+          <div class="stat-value">99.98%</div>
+        </div>
+        <div>
+          <div class="stat-label">Edge regions</div>
+          <div class="stat-value">14</div>
+        </div>
+      </div>
+      <svg class="waveform" viewBox="0 0 220 48" preserveAspectRatio="none">
+        <path id="wavePath" d="M0,24 Q20,8 40,24 T80,24 T120,24 T160,24 T200,24 T220,24" />
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="pricing-head">
+      <h2>Three tiers. One speed standard.</h2>
+      <p>Every plan runs on the same high-performance backbone — the difference is headroom, support, and how much of your roadmap we cover.</p>
+      <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px;">
+        <div class="billing-note"><span class="dot"></span>Billed annually — no monthly plans</div>
+        <div class="billing-note" style="border-color:var(--amber); color:var(--amber);"><span class="dot" style="background:var(--amber);"></span>Save 15% when you pay with a business debit or credit card</div>
+      </div>
+    </div>
+
+    <div class="plans">
+
+      <!-- LAUNCH -->
+      <div class="plan" data-plan="launch">
+        <div class="plan-name">Launch</div>
+        <div class="plan-tagline">For a single app or site that needs real infrastructure under it.</div>
+        <div class="plan-price">
+          <span class="amount">$1,499</span>
+          <span class="cycle">/ year</span>
+        </div>
+        <div class="plan-billed">Billed once annually · $125/mo equivalent</div>
+        <a class="plan-cta" href="https://buy.stripe.com/6oU14mcw94Qf0vF853dwc00">Get Launch</a>
+        <ul class="benefits">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>1 production app</strong> on NVMe SSD infrastructure</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>150 GB</strong> bandwidth per month</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Single-region deployment, auto SSL</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Daily automated backups, 7-day retention</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Email support, 24-hour response</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Deployment via Git push or Coolify-style workflow</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>AI support assistant</strong>, available 24/7 for setup &amp; troubleshooting</span></li>
+        </ul>
+      </div>
+
+      <!-- SCALE (Most Popular) -->
+      <div class="plan featured" data-plan="scale">
+        <div class="badge">Most Popular</div>
+        <div class="plan-name">Scale</div>
+        <div class="plan-tagline">For apps in active growth with marketing campaigns running alongside.</div>
+        <div class="plan-price">
+          <span class="amount">$1,980</span>
+          <span class="cycle">/ year</span>
+        </div>
+        <div class="plan-billed">Billed once annually · $165/mo equivalent</div>
+        <a class="plan-cta" href="https://buy.stripe.com/9B67sK67Laaz3HR997dwc01">Get Scale</a>
+        <ul class="benefits">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Up to 3 production apps</strong> on dedicated NVMe resources</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>500 GB</strong> bandwidth per month</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Multi-region edge delivery for faster global load</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Daily backups, 30-day retention + 1-click restore</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Priority support, 4-hour response</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Staging environment included</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Landing page / campaign hosting for marketing pushes</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>AI support assistant + software toolkit</strong> for monitoring &amp; deployment</span></li>
+        </ul>
+      </div>
+
+      <!-- VELOCITY -->
+      <div class="plan" data-plan="velocity">
+        <div class="plan-name">Velocity</div>
+        <div class="plan-tagline">For teams running multiple apps and marketing infrastructure at full throttle.</div>
+        <div class="plan-price">
+          <span class="amount">$2,380</span>
+          <span class="cycle">/ year</span>
+        </div>
+        <div class="plan-billed">Billed once annually · $198/mo equivalent</div>
+        <a class="plan-cta" href="https://buy.stripe.com/fZufZg53HbeDa6f2KJdwc02">Get Velocity</a>
+        <ul class="benefits">
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Unlimited production apps</strong>, priority compute allocation</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Unmetered</strong> bandwidth</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Full global edge network, 14 regions</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Hourly backups, 90-day retention + instant rollback</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Dedicated support channel, 1-hour response</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Staging + preview environments for every branch</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Dedicated IP + advanced DDoS mitigation</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Quarterly infrastructure review call</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Priority AI support</strong> with human escalation + full software suite included</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="infra-strip" id="infra">
+  <div class="wrap">
+    <div class="infra-item">
+      <div class="infra-label">Storage</div>
+      <div class="infra-value">100% NVMe SSD</div>
+    </div>
+    <div class="infra-item">
+      <div class="infra-label">Network</div>
+      <div class="infra-value">10 Gbps uplink</div>
+    </div>
+    <div class="infra-item">
+      <div class="infra-label">Delivery</div>
+      <div class="infra-value">Global edge CDN</div>
+    </div>
+    <div class="infra-item">
+      <div class="infra-label">Monitoring</div>
+      <div class="infra-value">24/7 uptime watch</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-left">SAVISH HOSTING © 2026</div>
+    <div class="foot-links">
+      <a href="#pricing">Plans</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/refunds.html">Refunds</a>
+      <a href="mailto:hello@savish.app">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Latency ticker (cosmetic, signature hero element) ----
+  const latencyEl = document.getElementById('latencyReadout');
+  function tickLatency(){
+    const val = (8 + Math.random() * 9).toFixed(0);
+    latencyEl.textContent = val + ' ms';
+  }
+  setInterval(tickLatency, 1400);
+
+  // gentle waveform re-draw for a "live signal" feel
+  const wavePath = document.getElementById('wavePath');
+  function randomWave(){
+    const points = [24];
+    for(let i=1;i<6;i++){ points.push(16 + Math.random()*16); }
+    let d = `M0,${points[0]} `;
+    for(let i=1;i<points.length;i++){
+      const x = i*40;
+      d += `Q${x-20},${points[i-1]} ${x},${points[i]} `;
+    }
+    wavePath.setAttribute('d', d);
+  }
+  setInterval(randomWave, 2200);
+</script>
+
+</body>
+</html>
