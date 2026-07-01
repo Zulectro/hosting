@@ -6,7 +6,6 @@
 <title>Savish Hosting — Infrastructure for apps that can't afford to wait</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://js.stripe.com/v3/"></script>
 <style>
   :root{
     --bg:#0A0D12;
@@ -243,6 +242,8 @@
     cursor:pointer; border:1px solid var(--line-strong);
     background:transparent; color:var(--text);
     transition:all .2s; margin-bottom:28px;
+    display:block; text-align:center; text-decoration:none;
+    box-sizing:border-box;
   }
   .plan.featured .plan-cta{
     background:var(--amber); color:#241300; border:none;
@@ -401,7 +402,7 @@
           <span class="cycle">/ year</span>
         </div>
         <div class="plan-billed">Billed once annually · $125/mo equivalent</div>
-        <button class="plan-cta" data-price-id="price_1ToVLoBNrhMFvwsHS2Gg6DAV" onclick="startCheckout(this)">Get Launch</button>
+        <a class="plan-cta" href="https://buy.stripe.com/6oU14mcw94Qf0vF853dwc00">Get Launch</a>
         <ul class="benefits">
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>1 production app</strong> on NVMe SSD infrastructure</span></li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>150 GB</strong> bandwidth per month</span></li>
@@ -423,7 +424,7 @@
           <span class="cycle">/ year</span>
         </div>
         <div class="plan-billed">Billed once annually · $165/mo equivalent</div>
-        <button class="plan-cta" data-price-id="price_1ToVMoBNrhMFvwsHbzFQkOmB" onclick="startCheckout(this)">Get Scale</button>
+        <a class="plan-cta" href="https://buy.stripe.com/9B67sK67Laaz3HR997dwc01">Get Scale</a>
         <ul class="benefits">
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Up to 3 production apps</strong> on dedicated NVMe resources</span></li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>500 GB</strong> bandwidth per month</span></li>
@@ -445,7 +446,7 @@
           <span class="cycle">/ year</span>
         </div>
         <div class="plan-billed">Billed once annually · $198/mo equivalent</div>
-        <button class="plan-cta" data-price-id="price_1ToVNpBNrhMFvwsHqi1hCMmX" onclick="startCheckout(this)">Get Velocity</button>
+        <a class="plan-cta" href="https://buy.stripe.com/fZufZg53HbeDa6f2KJdwc02">Get Velocity</a>
         <ul class="benefits">
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Unlimited production apps</strong>, priority compute allocation</span></li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="#4AE3FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Unmetered</strong> bandwidth</span></li>
@@ -520,38 +521,6 @@
     wavePath.setAttribute('d', d);
   }
   setInterval(randomWave, 2200);
-
-  // ---- Stripe Checkout ----
-  // 1. Replace 'pk_live_51RysJyBNrhMFvwsHfbBLrekmg18opreUZysNHj1DFOD5YMFV6P9LWJg2FaP92rnZQMeQoBreuGhYns4aPGEAYQWp00KIp94tqO' with your real Stripe publishable key.
-  // 2. Replace each button's data-price-id with the real recurring-yearly Price ID
-  //    from your Stripe Dashboard (Products > Savish Hosting > pricing).
-  // 3. This calls Stripe's redirectToCheckout, which requires each Price to already
-  //    exist in Stripe as a yearly recurring price — create those first.
-  const stripe = Stripe('pk_live_51RysJyBNrhMFvwsHfbBLrekmg18opreUZysNHj1DFOD5YMFV6P9LWJg2FaP92rnZQMeQoBreuGhYns4aPGEAYQWp00KIp94tqO');
-
-  async function startCheckout(btn){
-    const priceId = btn.getAttribute('data-price-id');
-    const originalText = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Redirecting…';
-    try {
-      const { error } = await stripe.redirectToCheckout({
-        lineItems: [{ price: priceId, quantity: 1 }],
-        mode: 'subscription',
-        successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
-        cancelUrl: window.location.href,
-      });
-      if (error) {
-        alert(error.message);
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }
-    } catch (err) {
-      alert('Checkout could not start. Check your Stripe configuration.');
-      btn.disabled = false;
-      btn.textContent = originalText;
-    }
-  }
 </script>
 
 </body>
